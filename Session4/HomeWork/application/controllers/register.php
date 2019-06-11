@@ -8,27 +8,24 @@ class Register extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		 $this->load->database();
+		 $this->load->model('mregister');
 	}
-	public function index(){
+
+	public function GetData(){
 		$this->load->view('register_view');
-	}
-	public function insertData(){
-		$action=$_POST['submit']; 
-		if ($action=='submit')
-		{
-			echo'$action';
-		$arg=$_POST['id'];
-		$data = array(
-		'id' =>'',
-		'Name' =>$_POST['name'],
-		'Email' =>$_POST['email'],
-		'Phone' => $_POST['phone'],
-		'Sex' => $_POST['name'],
-		'DoB'=> $_POST['DoB']
-		);
-		$this->model->Mregister($data);
-		
+		if(isset($_POST['save']))
+ 		{ 		
+ 			$n=$this->input->post('name');
+ 			$e=$this->input->post('email');
+ 			$p=$this->input->post('phone');
+ 			$g=$this->input->post('gender');
+ 			$dob=$this->input->post('DoB'); 	
+
+ 			$this->mregister->InsertData($n,$e,$p,$g,$dob);		
+			$this->load->view('success_view');
 		}
 	}
+	
 }
 ?>

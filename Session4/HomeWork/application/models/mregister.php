@@ -1,34 +1,24 @@
+
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "batch137-142";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-// echo "Connected successfully";
-
 /**
  * 
  */
 class Mregister extends CI_Model
 {
 	
-	function __construct(argument)
+	function __construct()
 	{
 		parent::__construct();
 	}
 	public function getAllrecords()
 	{
-		return $this->db->select("SELECT * FROM `users`");
+		return $this->db->select("SELECT * FROM 'users'");
 	}
-	public function InsertData(){
-		$this->db->insert('users', $data);
+	public function InsertData($name,$email,$phone,$gender,$DoB){
+
+	$query="insert into users (id, Name, Phone, Email, Sex, DoB) values('','$name','$phone','$email','$gender','$DoB')";
+ 	$this->db->query($query);
+ 	
 	}
 }
 ?>

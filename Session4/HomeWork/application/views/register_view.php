@@ -15,35 +15,32 @@
 <div class="card">
 
 <article class="card-body">
-<form action="<?php  echo "register/insertData" ?> method="post" enctype="multipart/form-data">
+<form method="post" >
   <div class="form-row">
     <div class="col form-group">
       <label>Name </label>   
-        <input type="text" class="form-control" placeholder="Your name">
+        <input type="text" class="form-control" placeholder="Your name" name="name" >
     </div> <!-- form-group end.// -->
     <div class="col form-group">
       <label>Phone</label>
-        <input type="text" class="form-control" placeholder="Your phone number">
+        <input type="text" class="form-control" placeholder="Your phone number" name="phone" >
     </div> <!-- form-group end.// -->
   </div> <!-- form-row end.// -->
   <div class="form-group">
     <label>Email address</label>
-    <input type="email" class="form-control" placeholder="">
-    <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <input type="email" class="form-control" placeholder="your email" name="email" >
+   
   </div> <!-- form-group end.// -->
   <div class="form-group">
-    <label class="form-check form-check-inline">
-      <input class="form-check-input" type="text" name="gender" >
-     
-    </label>
-    
+    <label class="form-check form-check-inline">Sex </label>
+      <input class="form-check-input" type="text" name="gender" >       
   </div> <!-- form-group end.// -->
   <div class="form-group">
     <label>Day of Birth</label>
-      <input class="form-control" type="date">
+      <input class="form-control" type="date" name="DoB">
   </div> <!-- form-group end.// -->  
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+        <button type="submit" class="btn btn-primary btn-block" name="save"> Save</button>
     </div> <!-- form-group// -->                                           
 </form>
 </article> <!-- card-body end .// -->
@@ -53,5 +50,5 @@
 </div> <!-- row.//-->
 
 
-</div> 
+</div>
 
