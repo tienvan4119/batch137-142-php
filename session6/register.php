@@ -22,15 +22,15 @@
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+<![endif]-->
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- Google Font -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition register-page">
-<div class="register-box">
-  <?php include_once 'connect.php';?>
-  <?php 
+  <div class="register-box">
+    <?php include_once 'connect.php';?>
+    <?php 
     if (isset($_POST['register'])) {
       $username = $_POST['username'];
       $password = md5($_POST['password']);
@@ -39,79 +39,94 @@
       $avatar   = $_FILES['avatar'];  
 
       if ($username != '' && $password != '' && $city != ''
-          && $gender != '' && $avatar['error'] == 0) {
-       
-        $avatarName = uniqid().'_'.$avatar['name'];
-        move_uploaded_file($avatar['tmp_name'], 'uploads/avatar/'.$avatarName);
-        $sql = "INSERT INTO users(username, password, city, gender, avatar)
-        VALUES('$username', '$password', '$city', '$gender', '$avatarName')";
-         if (mysqli_query($connect, $sql) === TRUE) {
-          header("Location: list_user.php");
+        && $gender != '' && $avatar['error'] == 0) {
+        $query = "SELECT * FROM users  WHERE username ='$username'";
+      $result = mysqli_query($connect, $query);
+      if (!$result) {
+        echo ' Database Error Occured ';
+      }
+          if (mysqli_num_rows($result) == 0) {     //
+            $avatarName = uniqid().'_'.$avatar['name'];
+            move_uploaded_file($avatar['tmp_name'], 'uploads/avatar/'.$avatarName);
+            $sql = "INSERT INTO users(username, password, city, gender, avatar)
+            VALUES('$username', '$password', '$city', '$gender', '$avatarName')";
+
+            if (mysqli_query($connect, $sql) === TRUE) {
+              header("Location: list_user.php");
+            }
+            else{
+              echo mysql_error();
+            }
+
+          }else
+          {
+            echo "Username has been used";
+          }
+
         }
-     }
-    }
-  ?>
-  <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
-  </div>
+      }
+      ?>
+      <div class="register-logo">
+        <a href="../../index2.html"><b>Admin</b>LTE</a>
+      </div>
 
-  <div class="register-box-body">
-    <p class="login-box-msg">Register a new membership</p>
+      <div class="register-box-body">
+        <p class="login-box-msg">Register a new membership</p>
 
-    <form action="#" method="post" enctype="multipart/form-data">
-      <div class="form-group has-feedback">
-        <input type="text" name="username" class="form-control" placeholder="Username">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        <form action="#" method="post" enctype="multipart/form-data">
+          <div class="form-group has-feedback">
+            <input type="text" name="username" class="form-control" placeholder="Username">
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" name="password" class="form-control" placeholder="Password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="radio" name="gender" value="male"> Male
+            <input type="radio" name="gender" value="female"> Female
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <select class="form-control" name="city">
+              <option value="">Choose city</option>
+              <option value="quangtri">Quang Tri</option>
+              <option value="hue">Hue</option>
+              <option value="danang">Da Nang</option>
+              <option value="quangnam">Quang Nam</option>
+            </select>
+          </div> 
+          <div class="form-group">
+            <label for="exampleInputFile">Avatar</label>
+            <input type="file" id="exampleInputFile" name="avatar">
+          </div>
+          <div class="row">
+            <!-- /.col -->
+            <div class="col-xs-4">
+              <button type="submit" name="register" class="btn btn-primary btn-block btn-flat">Register</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
       </div>
-      <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="radio" name="gender" value="male"> Male
-        <input type="radio" name="gender" value="female"> Female
-      </div>
-      <div class="form-group">
-        <label>City</label>
-        <select class="form-control" name="city">
-          <option value="">Choose city</option>
-          <option value="quangtri">Quang Tri</option>
-          <option value="hue">Hue</option>
-          <option value="danang">Da Nang</option>
-          <option value="quangnam">Quang Nam</option>
-        </select>
-      </div> 
-      <div class="form-group">
-        <label for="exampleInputFile">Avatar</label>
-        <input type="file" id="exampleInputFile" name="avatar">
-      </div>
-      <div class="row">
-        <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" name="register" class="btn btn-primary btn-block btn-flat">Register</button>
-        </div>
-        <!-- /.col -->
-      </div>
-    </form>
-  </div>
-  <!-- /.form-box -->
-</div>
-<!-- /.register-box -->
+      <!-- /.form-box -->
+    </div>
+    <!-- /.register-box -->
 
-<!-- jQuery 3 -->
-<script src="js/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="js/bootstrap.min.js"></script>
-<!-- iCheck -->
-<script src="js/icheck.min.js"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' /* optional */
-    });
-  });
-</script>
-</body>
-</html>
+    <!-- jQuery 3 -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- iCheck -->
+    <script src="js/icheck.min.js"></script>
+    <script>
+      $(function () {
+        $('input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' /* optional */
+        });
+      });
+    </script>
+  </body>
+  </html>
